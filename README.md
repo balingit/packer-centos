@@ -1,4 +1,4 @@
-# packer-centos7-ansible
+# packer-centos
 
 This builds a Virtualbox Centos 8 server with optional Ansible installed. To automate the build,
 Packer is usued.
