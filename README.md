@@ -18,5 +18,6 @@ To build a minimal install centos 8
 	$ packer build vbox-iso.json
 	
 To optionally add ansible after thie minimal install build
+
 	$ packer build vbox-ovf.json
 
