@@ -1,0 +1,25 @@
+{
+  "variables":
+  {
+	"src": "output-virtualbox-iso/centos8-base.ovf",
+	"vm_name": "centos8-ansible"
+  },
+  "builders":[
+    {
+	  "type": "virtualbox-ovf",
+	  "source_path": "{{user `src`}}",
+	  "vm_name": "{{user `vm_name`}}",
+	  "guest_additions_mode": "disable",	  	  
+	  "ssh_username": "vagrant",
+	  "ssh_password": "vagrant",	  
+	  "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p"	  
+    }
+  ],
+  "provisioners":[
+    {
+	  "type": "shell",
+	  "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash -eux '{{.Path}}'",
+	  "script": "scripts/ansible.sh"
+    }
+  ]
+}

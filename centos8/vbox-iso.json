@@ -1,0 +1,54 @@
+{
+  "variables":
+  {
+        "installer_iso": "../../../Downloads/CentOS-8.1.1911-x86_64-boot.iso",
+	"installer_checksum": "ee153d8587c42c6831a7ff88a48e27dd",
+	"vm_name": "centos8-base",
+	"disk_size": "8192",
+	"memory": "2048",
+	"cpu": "1"
+  },
+  "builders":[
+    {
+	  "type": "virtualbox-iso",
+	  "guest_os_type": "RedHat_64",
+	  "iso_url": "{{user `installer_iso`}}",
+	  "iso_checksum": "{{user `installer_checksum`}}",
+	  "iso_checksum_type": "md5",
+	  "vm_name": "{{user `vm_name`}}",
+	  "disk_size": "{{ user `disk_size`}}",
+	  "hard_drive_interface": "sata",
+	  "ssh_username": "vagrant",
+	  "ssh_password": "vagrant",
+	  "ssh_timeout": "10000s",
+	  "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+	  "http_directory": "http",	  
+	  "guest_additions_mode": "disable",
+	  "boot_command":
+	  [
+	    "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+	  ],
+	  "vboxmanage": [
+            [
+              "modifyvm",
+              "{{.Name}}",
+              "--memory",
+              "{{user `memory`}}"
+            ],
+            [  
+              "modifyvm",
+              "{{.Name}}",
+              "--cpus",
+              "{{user `cpu`}}"
+            ],
+	    [
+              "modifyvm",
+              "{{.Name}}",
+              "--audio",
+              "none"
+            ]
+
+          ]   
+     }
+   ]
+}
